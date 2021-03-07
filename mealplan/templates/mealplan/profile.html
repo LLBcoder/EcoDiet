@@ -1,0 +1,93 @@
+{% extends 'mealplan/index.html' %}
+{% load static %}
+
+{% block style %}
+.body{
+    display: flex;
+    height: 730px;
+}
+
+.rside {
+    background-color: #F3F3F3;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 25%;
+    padding: 50px;
+    text-align: center;
+}
+
+.rside img{
+    width: 200px;
+    border-radius: 50%;
+    margin-bottom: 30px;
+}
+
+.lside {
+    padding: 50px;
+    padding-top: 20px;
+}
+
+.lside h4{
+    margin-top: 30px;
+    margin-bottom: 15px;
+}
+
+.field {
+    width: 160px;
+}
+
+.field2 {
+    width: 220px;
+}
+
+{% endblock style %}
+
+
+{% block content %}
+<div class="body">
+
+<div class="rside">
+    <img src="https://www.01net.com/ressources/img/default-avatar.jpg?width=1200&enable=upscale" alt="generalprofilpic">
+    <h2>Welcome {{request.user}}</h2>   
+    <p> <strong>Email : </strong>{{request.user.email}}</p>
+</div>
+
+<div class="lside">
+    <form method="POST"> {% csrf_token %} 
+        <h4>What is your current diet?</h4>
+        {{form.currentdiet}}
+
+        <h4>To which diet would you like to change?</h4>
+        {{form.dietgoal}}
+
+        <h4>What is your level of commitment?</h4>
+        {{form.level}}
+
+        <h4>Intolerances</h4>
+        <div class="items">
+            {% for intolerance in form.intolerance %}
+            <div class='item'>
+                <div>{{ intolerance.tag }}</div>
+                <div class='label'>{{intolerance.choice_label}}</div>
+            </div>   
+            {% endfor %}
+        </div>
+
+        <h4>Ingredients to avoid in recipes</h4>
+        <div class="items">
+            {% for ingredient in form.ingredient %}
+            <div class='item'>
+                <div>{{ ingredient.tag }}</div>
+                <div class='label'>{{ingredient.choice_label}}</div>
+            </div>   
+            {% endfor %}
+        </div>
+        
+        <input type="submit" value="Submit"> 
+    </form> 
+</div>
+
+
+</div>
+{% endblock content %}
